@@ -1,0 +1,21 @@
+This is composed of seven files.
+
+get-url-make-html.txt  "This file a few hints as to the use."
+
+get-url-connect.php  "Connects to the database" 
+
+get-url.php  "This file gets the url from online or from a local file."
+
+get-url-insert.php   "Converts the file to 64_base and stores it in a database."
+
+get-make-html.php  "get-make-html is a form and will request a filename then will generate the filename from the information (page) stored in the MySQL database. The file to be generated is identified by ID.
+
+get-id-view.php  "Provides a Database view when supplied an id number"
+
+url.css  "Beautifies the GUI"
+
+urls.sql  "Last is the SQL database format. This database contains a captured URL. The id 29 . Use it for practice and demo use."
+
+Jennys-blog.html  "A page from a wordpress blog generated with this program"
+
+
