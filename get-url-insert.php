@@ -19,7 +19,7 @@ if (!mysqli_query($con,$sql))
   die('Error - Failed to post: ' . mysqli_error($con));
   }
 mysqli_close($con);
-header("Location: get_url.php");
+header("Location: get-url.php");
   
   ?>
 
