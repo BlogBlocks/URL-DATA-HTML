@@ -18,4 +18,6 @@ urls.sql  "Last is the SQL database format. This database contains a captured UR
 
 Jennys-blog.html  "A page from a wordpress blog generated with this program"
 
+index.php  "The combination of all the files into one. It is working on my local server. Biggest flaw now it adapts any local CSS to all urls opened.
+
 
