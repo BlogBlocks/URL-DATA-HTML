@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
@@ -86,27 +87,66 @@ p {
 					<br />
 					<br /> <input type="submit" name="deleteit" value="Enter" />
 				</form></center>
-				<br />				
-				
-				
+				<br /><hr /><hr />
+<center><h2>"CLICKABLE" List of html Generated Pages</h2><br />
+<?php
+settype($thelist, "string"); 
+if ($handle = opendir('.')) {
+    while (false !== ($file = readdir($handle)))
+    {
+        if ($file != "." && $file != ".." && strtolower(substr($file, strrpos($file, '.') + 1)) == 'html')
+        {
+            $thelist .= '<li><a href="'.$file.'">'.$file.'</a></li>';
+        }
+    }
+echo $thelist;
+    closedir($handle);
+}
+?></center><hr />				
+<center>
+<h2>View and Delete Files</h2>
+<h4>Select file to view then view or delete</h4>
+<form action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
+<input type="file" name="filename" value="" />
+<input type="submit" name="submit" value="VIEW" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="submit" name="delete" value="DELETE" style="color:red;" />
+<br />
+</form>
+
+<?php
+if (isset ( $_POST ['submit'] ) ) {
+$view = file_get_contents ($_POST ['filename']  );
+echo $view;
+  } ;
+?>
+
+<?php
+
+if (isset ( $_POST ['delete'] ) && ! empty ($_POST ['filename'] )) {
+$filename = $_POST ['filename'];
+unlink($filename);
+$filename = NULL; 
+}
+?>
+</center>
+<br /><br />		
+<hr style="height:5px;background-color:gray;" >
+<hr style="height:5px;background-color:gray;" >			
+<br /><br />				
 <?php
 //connection to the database
 $hostname = "localhost";
 $username = "root";
 $password = "";
+$database = "geturl";
 $dbhandle = mysql_connect($hostname, $username, $password)
 or die("Unable to connect to MySQL");
 
 //select a database to work with
-$selected = mysql_select_db("geturl",$dbhandle)
+$selected = mysql_select_db($database,$dbhandle)
 or die("Could not select geturl");
 ?>
 
-
-
-
-
-<?php header('Content-Type: text/html; charset=UTF-8'); ?>
 executed an SQL query and return the last 3 records
 <?php $result = mysql_query("SELECT * FROM `urls`" . "ORDER BY `ID` DESC LIMIT 3"); ?>
 <div class="boxit">
@@ -191,8 +231,7 @@ VALUES
 		echo $keywords . "<br />";
 		echo $page . "<br /><br /><hr>";
 	}
-} else {
-	echo "Huston, We have a problem";
+ 
 }
 ?>
 
@@ -232,9 +271,6 @@ if (isset ( $_POST ["makeit"] ) && ! empty ( $_POST ["pagename"] )) {
  <?php
 if(isset($_POST['deleteit']))
 {
-$hostname = "localhost";
-$username = "root";
-$password = "";
 $con = mysql_connect($hostname, $username, $password);
 if(! $con )
 {
@@ -244,7 +280,7 @@ if(! $con )
 $sql = "DELETE FROM urls WHERE ID={$_POST['delid']} LIMIT 1";
 //$sql = "DELETE comments ".
 //       "WHERE id = $id" ;
-mysql_select_db('geturl');
+mysql_select_db($database);
 $retval = mysql_query( $sql, $con );
 if(! $retval )
 {
@@ -260,4 +296,3 @@ mysql_close($con);
 </div></div>
 </body>
 </html>
-
