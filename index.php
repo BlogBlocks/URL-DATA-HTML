@@ -10,12 +10,26 @@
 <style>
 p {
 	font-size: 1.5em;
+	color:#272928;
+	background:white;
 }
 </style>
+
+
+
+
 </head>
-<body>
+<body style="all:initial;">
+<div style="padding=8px;margin:8px;">
+
 	<div id="wrapper">
-<?php include('get-header.php'); ?>
+<h1 style="color:#272928;	background:white;">Get_URL Project</h1>
+<h2>Get URLs Convert to Static HTML Pages</h2>
+<p>Description: The project is designed to capture webpages convert them into Base64 Data and store the data in a MySQL Database. After the pages are converted to base64 data and stored it may be retrieved by id and viewed as a decoded webpage. The webpages also may be converted to a static html page with your choice of name. Example: MyStoredPage.html</p>
+
+<p>objective: I have an online notebook. The notes kept in the notebook are searchable. I wanted the pages / articles created to exist as a static html webpage. I also have some very productive search queries that would be nice to exist as a static webpage. This project will sucessfully accomplish that taskdo that.</p> 
+
+<p>Future Plans: Currently the project does not capture any CSS except for that that is inline. Since it is primarily designed to work with my notebook, that is not important because the pages all use to local CSS file and look good. Get-URL will also capture off-site or non-local domain webpages. The off-sites webpages have no CSS  other than What was used inline. The project's use will expand tremendously if it can also capture the CSS of an off-site webpage.</p> 
 <div id="center-column">
 			<div id="post">
 				<hr>
@@ -24,18 +38,18 @@ p {
 					<h4>Copy and Paste a URL and give it keywords</h4>
 				</center>
 				<br />
-				<form action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
-					<span style="float: right; margin-right: 20px;">URL:&nbsp;&nbsp;<textarea
+				<center><form action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;URL:&nbsp;&nbsp;<textarea style="width: 60%;height: 2.5em;"
 							cols="70" rows="1" name="origpage" value=""></textarea></span><br />
 					<br />
-					<span style="float: right; margin-right: 20px;">Keywords:&nbsp;&nbsp;<textarea
+					Keywords:&nbsp;&nbsp;<textarea style="width: 60%;height: 2.5em;"
 							cols="70" rows="1" name="origkeywords" value="text"></textarea></span><br />
 					<br /> <span style="float: right; margin-right: 50%; color: red;"><input
 						type="submit" name="submit" value="Enter" /></span><br />
-					<br />
+					<br /><br />
 					<hr>
 					<hr>
-				</form>
+				</form></center>
 				<br />
 
 				<center>
@@ -43,72 +57,58 @@ p {
 					<h4>Enter ID number and a PageName (do not enter the extension)</h4>
 				</center>
 				<br />
-				<form action="" method="post">
-					Enter ID -:<input type="text" name="data" /><br />
-					<br /> Save as PageName:&nbsp;&nbsp;
-					<textarea cols="50" rows="2" name="pagename" value="text"></textarea>
+				<center><form action="" method="post">
+					Enter ID -:<input style="margin-right:20%;width: 10%;height: 2.5em;"type="text" name="data" />
+					<br /><br /> Save as PageName:&nbsp;&nbsp;
+					<textarea style="width: 60%;height: 2.5em;"cols="50" rows="2" name="pagename" value="text"></textarea>
 					<br />
-					<br /> <input type="submit" name="makeit" value="Enter" />
-				</form>
-				<br />
+					<br /> <span color: red;"><input type="submit" name="makeit" value="Enter" /></span>
+				</form></center>
+				<br /><br /><br />
 				<hr>
-				<hr>
-				<h2>View a Stored Page by ID</h2>
-				<form action="" method="post">
-					View by Id:&nbsp;&nbsp;
-					<textarea cols="70" rows="3" name="origid" value="text"></textarea>
-					<br />
-					<br /> <input type="submit" name="submit2" value="Enter" />
-				</form>
-				<br />
+				<hr><br />
 				
-				<h2>View a Stored Page by ID</h2>
+				<center><h2>View a Stored Page by ID</h2>
 				<form action="" method="post">
 					View by Id:&nbsp;&nbsp;
-					<textarea cols="70" rows="3" name="origid" value="text"></textarea>
+					<textarea style="width: 60%;height: 2.5em;"cols="50" rows="2" name="origid" value="text"></textarea>
 					<br />
 					<br /> <input type="submit" name="submit2" value="Enter" />
-				</form>
+				</form></center>
 				<br />
-
-
-
+<hr>
+				<hr><br />
+				
+				<center><h2>Delete a Stored Page by ID</h2>
+				<form action="" method="post">
+					Delete Sql by Id:&nbsp;&nbsp;
+					<textarea style="width: 60%;height: 2.5em;"cols="50" rows="2" name="delid" value="text"></textarea>
+					<br />
+					<br /> <input type="submit" name="deleteit" value="Enter" />
+				</form></center>
+				<br />				
+				
+				
 <?php
-// execute the SQL query and return records
-if (isset ( $_POST ["submit2"] ) && ! empty ( $_POST ["origid"] )) {
-	?>
-<?php include('get-url-connect.php'); ?>
-<?php
+//connection to the database
+$hostname = "localhost";
+$username = "root";
+$password = "";
+$dbhandle = mysql_connect($hostname, $username, $password)
+or die("Unable to connect to MySQL");
 
-	$id = $_POST ["origid"];
-	$result = mysql_query ( "SELECT * FROM urls WHERE id=" . ( int ) $id . " LIMIT 1" );
-	// fetch the data from the database
-	?>
-<?php
-
-	while ( $row = mysql_fetch_array ( $result ) ) {
-		echo "ID -" . $row ['id'] . "&nbsp;&nbsp;&nbsp;Date:" . $row ['date'] . "<br />"; 
-$page = base64_decode($row['page'])."<br />";
-$keywords = $row['keywords'];
-echo $keywords."<br />";
-echo $page."<br /><br /><hr>";
-echo  "Here is your Page";
-
-}
-}
+//select a database to work with
+$selected = mysql_select_db("geturl",$dbhandle)
+or die("Could not select geturl");
 ?>
 
 
 
 
 
-
-
-
 <?php header('Content-Type: text/html; charset=UTF-8'); ?>
-<?php include('get-url-connect.php'); ?>
-//execute an SQL query and return the last 5 records
-<?php $result = mysql_query("SELECT * FROM `urls`" . "ORDER BY `ID` DESC LIMIT 5"); ?>
+executed an SQL query and return the last 3 records
+<?php $result = mysql_query("SELECT * FROM `urls`" . "ORDER BY `ID` DESC LIMIT 3"); ?>
 <div class="boxit">
 <?php 
 // fetch the data from the database
@@ -121,6 +121,35 @@ while ( $row = mysql_fetch_array ( $result ) ) {
 	echo $page . "<br /><br /><hr>";
 }
 ?>
+
+
+
+
+
+
+<?php
+// executed the SQL query and return 1 record
+if (isset ( $_POST ["submit2"] ) && ! empty ( $_POST ["origid"] )) {
+	?>
+<?php
+
+	$id = $_POST ["origid"];
+	$result = mysql_query ( "SELECT * FROM urls WHERE id=" . ( int ) $id . " LIMIT 1" );
+	// fetch the data from the database
+	?>
+<?php
+	while ( $row = mysql_fetch_array ( $result ) ) {
+		echo "ID -" . $row ['id'] . "&nbsp;&nbsp;&nbsp;Date:" . $row ['date'] . "<br />"; 
+$page = base64_decode($row['page'])."<br />";
+$keywords = $row['keywords'];
+echo $keywords."<br />";
+echo $page."<br /><br /><hr>";
+echo  "Here is your Page";
+}
+}
+?>
+</div>
+
 
 
 <?php
@@ -141,15 +170,15 @@ VALUES
 		die ( 'Error - Failed to post: ' . mysqli_error ( $con ) );
 	}
 	mysqli_close ( $con );
-	header ( "Location: get-url.php" );
+	header ( "Location: index.php" );
 	?>
 <?php
 
 	header ( 'Content-Type: text/html; charset=UTF-8' );
 	?>
-<?php include('get-connect.php'); ?>
+
 <?php
-	// execute the SQL query and return records
+	// execute the SQL query and return 5 records
 	$result = mysql_query ( "SELECT * FROM `urls`" . " ORDER BY `ID` DESC LIMIT 5 " );
 	// fetch the data from the database
 	?>
@@ -166,9 +195,9 @@ VALUES
 	echo "Huston, We have a problem";
 }
 ?>
-<?php include('get-url-connect.php'); ?>
+
 <?php
-// execute the SQL query and return records
+// execute the SQL query and return 1 record
 if (isset ( $_POST ["makeit"] ) && ! empty ( $_POST ["pagename"] )) {
 	$data = $_POST ['data'];
 	$pagename = $_POST ['pagename'];
@@ -177,6 +206,7 @@ if (isset ( $_POST ["makeit"] ) && ! empty ( $_POST ["pagename"] )) {
 		$result = mysql_query ( "SELECT * FROM urls WHERE id= '$data'" );
 		// fetch the data from the database
 		?>
+		</div>
 <div class="boxit">
 <?php
 		while ( $row = mysql_fetch_array ( $result ) ) {
@@ -196,6 +226,38 @@ if (isset ( $_POST ["makeit"] ) && ! empty ( $_POST ["pagename"] )) {
 ?>
 
 
+
+
+
+ <?php
+if(isset($_POST['deleteit']))
+{
+$hostname = "localhost";
+$username = "root";
+$password = "";
+$con = mysql_connect($hostname, $username, $password);
+if(! $con )
+{
+  die('Could not connect: ' . mysql_error());
+}
+//$id = $_POST['id'];
+$sql = "DELETE FROM urls WHERE ID={$_POST['delid']} LIMIT 1";
+//$sql = "DELETE comments ".
+//       "WHERE id = $id" ;
+mysql_select_db('geturl');
+$retval = mysql_query( $sql, $con );
+if(! $retval )
+{
+  die('Could not delete data: ' . mysql_error());
+}
+echo "Deleted data successfully\n";
+mysql_close($con);
+}
+?>
+</div>
+</div>
+</div>
+</div></div>
 </body>
 </html>
 
