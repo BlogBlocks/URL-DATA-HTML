@@ -240,7 +240,7 @@ VALUES
 if (isset ( $_POST ["makeit"] ) && ! empty ( $_POST ["pagename"] )) {
 	$data = $_POST ['data'];
 	$pagename = $_POST ['pagename'];
-	$min_length = 10;
+	$min_length = 5;
 	if (strlen ( $pagename ) >= $min_length) {
 		$result = mysql_query ( "SELECT * FROM urls WHERE id= '$data'" );
 		// fetch the data from the database
